@@ -1,34 +1,45 @@
-# pages/Live_Detection.py
-
 import streamlit as st
 import cv2
 import tempfile
 import numpy as np
 from modules.utils import detection_model, is_full_pizza, classify_pizza
-
+import os
 
 def main():
-
     st.set_page_config(page_title="Pizza QC System", layout="wide")
-
     st.title("Realtime Pizza Monitoring")
 
+    # Camera configuration
+    camera_type = st.radio("Select Camera Source:", ("Webcam", "EBay Camera"))
+    
+    if camera_type == "EBay Camera":
+        try:
+            # Get credentials from Streamlit secrets or environment variables
+            CAMERA_IP = os.getenv("EBay_CAMERA_IP", st.secrets.EBay_CAMERA.IP)
+            USERNAME = os.getenv("EBay_USERNAME", st.secrets.EBay_CAMERA.USERNAME)
+            PASSWORD = os.getenv("EBay_PASSWORD", st.secrets.EBay_CAMERA.PASSWORD)
+            camera_url = f"rtsp://{USERNAME}:{PASSWORD}@{CAMERA_IP}/live"
+        except Exception as e:
+            st.error(f"Could not load camera credentials. Error: {str(e)}")
+            return
+    else:
+        camera_url = 0  # Default webcam for local testing
 
-    # Webcam capture
-    run_detection = st.button("Start Webcam Detection")
+    # Detection controls
+    run_detection = st.button("Start Camera Detection")
     stop_detection = st.button("Stop")
 
     frame_placeholder = st.empty()
     result_placeholder = st.empty()
 
     if run_detection:
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(camera_url)
         detected = False
 
         while cap.isOpened() and not stop_detection:
             ret, frame = cap.read()
             if not ret:
-                st.error("Failed to access webcam.")
+                st.error("Failed to access camera.")
                 break
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -43,7 +54,7 @@ def main():
             for result in results:
                 for box in result.boxes:
                     class_id = int(box.cls[0])
-                    class_name = detection_model.names[class_id].lower()
+                    class_name = results[0].names[class_id].lower()
                     if class_name == "pizza":
                         confidence = box.conf[0].item()
                         frame_height, frame_width = frame.shape[:2]
