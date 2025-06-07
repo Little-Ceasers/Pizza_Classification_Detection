@@ -6,10 +6,13 @@ import tempfile
 import numpy as np
 from modules.utils import detection_model, is_full_pizza, classify_pizza
 
-st.set_page_config(page_title="Pizza QC System", layout="wide")
 
 def main():
+
+    st.set_page_config(page_title="Pizza QC System", layout="wide")
+
     st.title("Realtime Pizza Monitoring")
+
 
     # Webcam capture
     run_detection = st.button("Start Webcam Detection")

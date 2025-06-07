@@ -4,9 +4,12 @@ import streamlit as st
 import os
 from modules.utils import classify_pizza, generate_gemini_analysis
 
-st.set_page_config(page_title="Pizza QC System", layout="wide")
 
 def main():
+
+    st.set_page_config(page_title="Pizza QC System", layout="wide")
+
+
     st.title("Best Pizza Capture & Quality Analysis")
 
     image_path = "captured_pizza_images/best_pizza.jpg"

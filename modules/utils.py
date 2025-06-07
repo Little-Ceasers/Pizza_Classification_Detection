@@ -6,9 +6,9 @@ import google.generativeai as genai
 from PIL import Image
 import io
 import numpy as np
-from dot_env import load_env
+from dotenv import load_dotenv
 
-load_env()
+load_dotenv()
 # Initialize models once
 detection_model = YOLO(r"C:\Users\Ishant Saraswat\Desktop\Project Pizza Classification\runs\detect\train12\weights\best.pt")
 classification_model = tf.keras.models.load_model(
