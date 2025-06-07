@@ -6,13 +6,16 @@ import google.generativeai as genai
 from PIL import Image
 import io
 import numpy as np
+from dot_env import load_env
 
+load_env()
 # Initialize models once
 detection_model = YOLO(r"C:\Users\Ishant Saraswat\Desktop\Project Pizza Classification\runs\detect\train12\weights\best.pt")
 classification_model = tf.keras.models.load_model(
     r"C:\Users\Ishant Saraswat\Desktop\Project Pizza Classification\efficientnet_pizza_classifier.h5"
 )
-genai.configure(api_key="AIzaSyDvJJI420RFfTEBYdDz3fy9Dy4uLoWwK5w")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+genai.configure(api_key=GEMINI_API_KEY)
 
 def get_reolink_stream(channel=1, stream_type='main'):
 # """Generate RTSP URL for Reolink cameras"""
