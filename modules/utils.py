@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 # Initialize models once
-detection_model = YOLO(r"C:\Users\Ishant Saraswat\Desktop\Project Pizza Classification\runs\detect\train12\weights\best.pt")
+detection_model = YOLO(r"modules/best.pt")
 classification_model = tf.keras.models.load_model(
-    r"C:\Users\Ishant Saraswat\Desktop\Project Pizza Classification\efficientnet_pizza_classifier.h5"
+    r"modules/efficientnet_pizza_classifier.h5"
 )
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
