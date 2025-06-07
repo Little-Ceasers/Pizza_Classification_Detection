@@ -7,11 +7,7 @@ from modules.utils import classify_pizza, generate_gemini_analysis
 
 def main():
 
-    st.set_page_config(page_title="Pizza QC System", layout="wide")
-
-
     st.title("Best Pizza Capture & Quality Analysis")
-
     image_path = "captured_pizza_images/best_pizza.jpg"
     if not os.path.exists(image_path):
         st.warning("No pizza has been captured yet.")

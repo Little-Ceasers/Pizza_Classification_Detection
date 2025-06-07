@@ -6,7 +6,7 @@ from modules.utils import detection_model, is_full_pizza, classify_pizza
 import os
 
 def main():
-    st.set_page_config(page_title="Pizza QC System", layout="wide")
+
     st.title("Realtime Pizza Monitoring")
 
     # Camera configuration
